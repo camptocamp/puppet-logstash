@@ -27,9 +27,4 @@ class logstash (
     system => true,
   }
 
-  group {$group:
-    ensure => present,
-    system => true,
-  }
-
 }
