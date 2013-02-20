@@ -1,0 +1,12 @@
+# file managed by puppet
+
+JAVA_HOME=/usr/lib/jvm/jre-openjdk
+JAVA_OPTS="-Xms256m -Xmx256m"
+
+LS_USER=<%= @serviceuser %>
+LS_GROUP=<%= @servicegroup %>
+LS_HOME=<%= @servicehome %>
+LS_JAR=<%= @servicejar %>
+LS_ARGS="<%= @serviceargs %>"
+LS_LOG_FILE=<%= @servicelogfile %>
+
