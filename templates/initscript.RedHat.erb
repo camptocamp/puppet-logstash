@@ -23,7 +23,7 @@ NAME=logstash-<%= logstash_name %>
 LS_HOME=<%= scope.lookupvar('::logstash::home') %>
 LS_USER=<%= scope.lookupvar('::logstash::user') %>
 LS_GROUP=<%= scope.lookupvar('::logstash::group') %>
-LS_LOG_FILE=<%= scope.lookupvar('::logstash::log')/<%= logstash_name %>.log
+LS_LOG_FILE=<%= scope.lookupvar('::logstash::log') %>/<%= logstash_name %>.log
 
 JAVA_HOME=<%= scope.lookupvar('::logstash::java_home') %> 
 JAVA_OPTS="<%= java_opts %>"
