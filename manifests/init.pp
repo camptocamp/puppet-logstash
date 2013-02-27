@@ -1,5 +1,5 @@
 class logstash ( 
-  $home          = '/usr/local/logstash',
+  $home          = $logstash::params::home,
   $etc           = '/etc/logstash',
   $log           = '/var/log/logstash',
   $user          = 'logstash',
@@ -7,8 +7,8 @@ class logstash (
   $version       = '1.1.9',
   $template_path = 'logstash',
   $template_name = 'default',
-  $java_home     = '/usr/lib/jvm/jre-openjdk'
-) {
+  $java_home     = $logstash::params::java_home,
+) inherits logstash::params {
 
   file {$home:
     ensure  => 'directory',

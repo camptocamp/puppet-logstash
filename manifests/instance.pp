@@ -1,6 +1,7 @@
 define logstash::instance (
   $ensure=present,
-){
+  $java_opts = '-Xms256m -Xmx256m',
+) {
 
   file { "${logstash::etc}/${name}.conf":
     ensure  => $ensure,
@@ -14,16 +15,9 @@ define logstash::instance (
     notify  => Service["logstash-${name}"],
   }
 
-  logstash::initscript {"logstash-${name}":
-    ensure         => $ensure,
-    servicename    => "logstash-${name}",
-    serviceuser    => $logstash::user,
-    servicegroup   => $logstash::group,
-    servicehome    => $logstash::home,
-    servicelogfile => "${logstash::log}/${name}.log",
-    servicejar     => "${logstash::home}/logstash-${logstash::version}-monolithic.jar",
-    serviceargs    => "agent -f ${logstash::etc}/${name}.conf -l ${logstash::log}/${name}.log",
-    java_home      => $logstash::java_home,
+  logstash::initscript {"${name}":
+    ensure    => $ensure,
+    java_opts => $java_opts,
   }
 
   service {"logstash-${name}":
@@ -32,7 +26,7 @@ define logstash::instance (
     enable    => true,
     require   => [
       Package['logstash'],
-      Logstash::Initscript["logstash-${name}"]
+      Logstash::Initscript["${name}"]
     ],
   }
 
