@@ -18,8 +18,22 @@ class logstash (
     ensure  => 'directory',
   }
 
-  package {'logstash':
-    ensure => latest,
+  case $::osfamily {
+    'RedHat': {
+      package {'logstash':
+        ensure => latest,
+      }
+    }
+    'Debian': {
+      apt::preferences {'logstash':
+        pin      => "version ${version}~c2c*",
+        priority => 1001,
+      }
+      package {'logstash':
+        ensure  => latest,
+        require => Apt::Preferences ['logstash'],
+      }
+    }
   }
 
   user {$user:
