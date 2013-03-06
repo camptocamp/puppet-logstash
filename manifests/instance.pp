@@ -26,6 +26,7 @@ define logstash::instance (
     enable    => true,
     require   => [
       Package['logstash'],
+      File[$logstash::log],
       Logstash::Initscript["${name}"]
     ],
   }

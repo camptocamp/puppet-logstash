@@ -1,5 +1,5 @@
 class logstash ( 
-  $home          = $logstash::params::home,
+  $home          = '/usr/share/logstash',
   $etc           = '/etc/logstash',
   $log           = '/var/log/logstash',
   $user          = 'logstash',
@@ -25,6 +25,14 @@ class logstash (
   user {$user:
     ensure => present,
     system => true,
+  }
+
+  file {$log:
+    ensure  => directory,
+    owner   => $user,
+    group   => $user,
+    mode    => '0755',
+    require => User[$user],
   }
 
 }
