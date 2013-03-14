@@ -25,7 +25,6 @@ LS_USER=<%= scope.lookupvar('::logstash::user') %>
 LS_GROUP=<%= scope.lookupvar('::logstash::group') %>
 LS_LOG_FILE=<%= scope.lookupvar('::logstash::log') %>/<%= logstash_name %>.log
 
-JAVA_HOME=<%= scope.lookupvar('::logstash::java_home') %> 
 JAVA_OPTS="<%= java_opts %>"
 JAVA_ARGS="-jar <%= service_jar %> <%= service_args %>"
 
@@ -68,7 +67,7 @@ function startServiceProcess {
    rm -f "$PID_FILE"
    makeFileWritable "$PID_FILE" || return 1
    makeFileWritable "$LS_LOG_FILE" || return 1
-   cmd="nohup $JAVA_HOME/bin/java $JAVA_OPTS $JAVA_ARGS >>$LS_LOG_FILE 2>&1 & echo \$! >$PID_FILE"
+   cmd="nohup /usr/bin/java $JAVA_OPTS $JAVA_ARGS >>$LS_LOG_FILE 2>&1 & echo \$! >$PID_FILE"
    su -m "$LS_USER" -s $SHELL -c "$cmd" || return 1
    sleep 0.1
    pid="$(<$PID_FILE)"
