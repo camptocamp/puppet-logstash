@@ -9,12 +9,8 @@ class logstash (
   $template_name = 'default',
 ) {
 
-  file {$home:
-    ensure  => 'directory',
-  }
-
-  file {$etc:
-    ensure  => 'directory',
+  file {[$home, $etc]:
+    ensure => 'directory',
   }
 
   package {'logstash':
