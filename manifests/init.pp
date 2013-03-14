@@ -5,16 +5,16 @@ class logstash (
   $user          = 'logstash',
   $group         = 'logstash',
   $version       = '1.1.9',
-  $template_path = 'logstash',
-  $template_name = 'default',
 ) {
+
+  include concat::setup
 
   file {[$home, $etc]:
     ensure => 'directory',
   }
 
   package {'logstash':
-    ensure => ensure,
+    ensure => present,
   }
 
   user {$user:
