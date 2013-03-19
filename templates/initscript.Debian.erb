@@ -34,8 +34,6 @@ fi
 LS_USER=<%= scope.lookupvar('::logstash::user') %>
 LS_GROUP=<%= scope.lookupvar('::logstash::group') %>
 
-export JAVA_HOME=<%= scope.lookupvar('::logstash::java_home') %>
-
 # Directory where the logstash all in one jar lives
 LS_HOME=/usr/share/logstash
 
@@ -76,15 +74,11 @@ fi
 
 case "$1" in
    start)
-      if [ -z "$JAVA_HOME" ]; then
-         log_failure_msg "no JDK found - please set JAVA_HOME"
-         exit 1
-      fi
 
       log_daemon_msg "Starting $DESC"
    
       if start-stop-daemon --test --start --pidfile "$PID_FILE" \
-         --user "$LS_USER" --exec "$JAVA_HOME/bin/java" \
+         --user "$LS_USER" --exec "/usr/bin/java" \
       >/dev/null; then
          # Prepare environment
          mkdir -p "$LOG_DIR" && chown "$LS_USER":"$LS_GROUP" "$LOG_DIR"
@@ -92,12 +86,12 @@ case "$1" in
          ulimit -n 65535
 
          # Start Daemon
-         start-stop-daemon --start -b --user "$LS_USER" -c "$LS_USER":"$LS_USER" -d "$LS_HOME" --pidfile "$PID_FILE" --make-pidfile --exec "$JAVA_HOME/bin/java" -- $LS_JAVA_OPTS -jar $DAEMON $DAEMON_OPTS
+         start-stop-daemon --start -b --user "$LS_USER" -c "$LS_USER":"$LS_USER" -d "$LS_HOME" --pidfile "$PID_FILE" --make-pidfile --exec "/usr/bin/java" -- $LS_JAVA_OPTS -jar $DAEMON $DAEMON_OPTS
 
          sleep 1
 
          if start-stop-daemon --test --start --pidfile "$PID_FILE" \
-            --user "$LS_USER" --exec "$JAVA_HOME/bin/java" \
+            --user "$LS_USER" --exec "/usr/bin/java" \
          >/dev/null; then
 
             if [ -f "$PID_FILE" ]; then
@@ -143,7 +137,7 @@ case "$1" in
       set +e
 
       start-stop-daemon --test --start --pidfile "$PID_FILE" \
-         --user "$LS_USER" --exec "$JAVA_HOME/bin/java" \
+         --user "$LS_USER" --exec "/usr/bin/java" \
       >/dev/null 2>&1
 
       if [ "$?" = "0" ]; then

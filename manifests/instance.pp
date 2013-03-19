@@ -1,21 +1,41 @@
 define logstash::instance (
-  $ensure=present,
-  $java_opts = '-Xms256m -Xmx256m',
+  $ensure      = present,
+  $java_opts   = '-Xms256m -Xmx256m',
+  $input_file  = "puppet:///${module_name}/${name}-default-input",
+  $filter_file = "puppet:///${module_name}/${name}-default-filter",
+  $output_file = "puppet:///${module_name}/${name}-default-output",
 ) {
 
-  file { "${logstash::etc}/${name}.conf":
-    ensure  => $ensure,
+  concat {"${logstash::etc}/${name}.conf":
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => template(
-      "${logstash::template_path}/${name}-input-${logstash::template_name}.erb",
-      "${logstash::template_path}/${name}-filter-${logstash::template_name}.erb",
-      "${logstash::template_path}/${name}-output-${logstash::template_name}.erb"),
+    force   => true,
     notify  => Service["logstash-${name}"],
   }
 
-  logstash::initscript {"${name}":
+  concat::fragment {"input-${name}":
+    ensure => $ensure,
+    target => "${logstash::etc}/${name}.conf",
+    source => $input_file,
+    order  => 01,
+  }
+
+  concat::fragment {"filter-${name}":
+    ensure => $ensure,
+    target => "${logstash::etc}/${name}.conf",
+    source => $filter_file,
+    order  => 02,
+  }
+
+  concat::fragment {"output-${name}":
+    ensure => $ensure,
+    target => "${logstash::etc}/${name}.conf",
+    source => $output_file,
+    order  => 03,
+  }
+
+  logstash::initscript {$name:
     ensure    => $ensure,
     java_opts => $java_opts,
   }
@@ -27,7 +47,7 @@ define logstash::instance (
     require   => [
       Package['logstash'],
       File[$logstash::log],
-      Logstash::Initscript["${name}"]
+      Logstash::Initscript[$name]
     ],
   }
 
