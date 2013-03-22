@@ -6,6 +6,9 @@ define logstash::instance (
   $output_file = "puppet:///${module_name}/${name}-default-output",
 ) {
 
+  $service_ensure = $ensure ? { present => 'running', default => 'stopped' }
+  $service_enable = $ensure ? { present => true, default => false }
+
   concat {"${logstash::etc}/${name}.conf":
     owner   => 'root',
     group   => 'root',
@@ -41,14 +44,19 @@ define logstash::instance (
   }
 
   service {"logstash-${name}":
-    ensure    => 'running',
+    ensure    => $service_ensure,
     hasstatus => true,
-    enable    => true,
+    enable    => $service_enable,
     require   => [
       Package['logstash'],
       File[$logstash::log],
-      Logstash::Initscript[$name]
     ],
+  }
+
+  if $ensure == 'present' {
+    Logstash::Initscript[$name] -> Service["logstash-${name}"]
+  } else {
+    Service["logstash-${name}"] -> Logstash::Initscript[$name]
   }
 
 }
