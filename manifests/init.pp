@@ -4,7 +4,6 @@ class logstash (
   $log     = '/var/log/logstash',
   $user    = 'logstash',
   $group   = 'logstash',
-  $version = '1.1.9',
 ) {
 
   class {'logstash::install': } ->
