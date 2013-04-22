@@ -26,6 +26,23 @@ which consists of specifying inputs, filters, and outputs
       java_opts   => '-Xms1g -Xmx1g',
     }
 
+## Package
+
+Packages used by this module are simply built with [fpm] (https://github.com/jordansissel/fpm).
+
+Download the all inclusive logstash jar in a basic structure:
+
+    mkdir -p logstash-build/usr/share/logstash
+    curl -o logstash-build/usr/share/logstash/logstash.jar http://semicomplete.com/files/logstash/logstash-1.1.9-flatjar.jar
+
+Run the following command for CentOS/RedHat:
+
+    fpm -s dir -t rpm -n logstash -v 1.1.9 -a noarch --iteration 1 -d "jre >= 1.6.0" -f -C logstash-build .
+
+And this one for Debian/Ubuntu:
+
+    fpm -s dir -t deb -n logstash -v 1.1.9 -a all --iteration 1 -d "java6-runtime" -f -C logstash-build .
+
 ## Contributing
 
 Please report bugs and feature request using [GitHub issue

@@ -7,11 +7,11 @@ define logstash::initscript (
 
   case $::osfamily {
     'RedHat': {
-      $service_jar = "${::logstash::home}/logstash-${::logstash::version}-monolithic.jar"
+      $service_jar = "${::logstash::home}/logstash.jar"
       $service_args = "agent -f ${logstash::etc}/${name}.conf -l ${logstash::log}/${logstash_name}.log"
     }
   }
-      
+
   file {"/etc/init.d/logstash-${name}":
     ensure  => $ensure,
     owner   => root,
