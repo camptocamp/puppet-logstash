@@ -1,22 +1,10 @@
 #!/bin/bash
 #
 # chkconfig: 345 99 05
-# description: Java deamon script
+# description: Logstash <%= @logstash_name %> agent
 #
-# A non-SUSE Linux start/stop script for Java daemons.
-# http://shrubbery.mynetgear.net/c/display/W/Java+Daemon+Startup+Script
+# File managed by puppet
 #
-# Derived from -
-# Home page: http://www.source-code.biz
-# License:   GNU/LGPL (http://www.gnu.org/licenses/lgpl.html)
-# Copyright 2006 Christian d'Heureuse, Inventec Informatik AG, Switzerland.
-#
-# History:
-# 2010-09-21 Josh Davis: Changed 'sudo' to 'su', fix some typos, removed unused variables
-# 2009-03-04 Josh Davis: Ubuntu/Redhat version.
-# 2006-06-27 Christian d'Heureuse: Script created.
-# 2006-07-02 chdh: Minor improvements.
-# 2006-07-10 chdh: Changes for SUSE 10.0.
 
 NAME=logstash-<%= @logstash_name %>
 
@@ -26,8 +14,8 @@ LS_GROUP=<%= scope.lookupvar('::logstash::group') %>
 LS_CONF_FILE=<%= scope.lookupvar('::logstash::etc') %>/<%= @logstash_name %>.conf
 LS_LOG_FILE=<%= scope.lookupvar('::logstash::log') %>/<%= @logstash_name %>.log
 
-JAVA_OPTS="<%= @java_opts %>"
-JAVA_ARGS="-jar ${LS_HOME}/logstash.jar agent -f ${LS_CONF_FILE} -l ${LS_LOG_FILE}"
+LS_JAVA_OPTS="<%= @java_opts %>"
+LS_JAVA_ARGS="-jar ${LS_HOME}/logstash.jar agent -f ${LS_CONF_FILE} -l ${LS_LOG_FILE}"
 
 PID_FILE=/var/run/$NAME.pid
 SHUTDOWN_TIMEOUT=15
@@ -68,7 +56,7 @@ function startServiceProcess {
    rm -f "$PID_FILE"
    makeFileWritable "$PID_FILE" || return 1
    makeFileWritable "$LS_LOG_FILE" || return 1
-   cmd="nohup /usr/bin/java $JAVA_OPTS $JAVA_ARGS >>$LS_LOG_FILE 2>&1 & echo \$! >$PID_FILE"
+   cmd="nohup /usr/bin/java $LS_JAVA_OPTS $LS_JAVA_ARGS >>$LS_LOG_FILE 2>&1 & echo \$! >$PID_FILE"
    su -m "$LS_USER" -s $SHELL -c "$cmd" || return 1
    sleep 0.1
    pid="$(<$PID_FILE)"
