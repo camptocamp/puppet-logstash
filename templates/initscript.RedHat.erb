@@ -18,15 +18,16 @@
 # 2006-07-02 chdh: Minor improvements.
 # 2006-07-10 chdh: Changes for SUSE 10.0.
 
-NAME=logstash-<%= logstash_name %>
+NAME=logstash-<%= @logstash_name %>
 
 LS_HOME=<%= scope.lookupvar('::logstash::home') %>
 LS_USER=<%= scope.lookupvar('::logstash::user') %>
 LS_GROUP=<%= scope.lookupvar('::logstash::group') %>
-LS_LOG_FILE=<%= scope.lookupvar('::logstash::log') %>/<%= logstash_name %>.log
+LS_CONF_FILE=<%= scope.lookupvar('::logstash::etc') %>/<%= @logstash_name %>.conf
+LS_LOG_FILE=<%= scope.lookupvar('::logstash::log') %>/<%= @logstash_name %>.log
 
-JAVA_OPTS="<%= java_opts %>"
-JAVA_ARGS="-jar <%= service_jar %> <%= service_args %>"
+JAVA_OPTS="<%= @java_opts %>"
+JAVA_ARGS="-jar ${LS_HOME}/logstash.jar agent -f ${LS_CONF_FILE} -l ${LS_LOG_FILE}"
 
 PID_FILE=/var/run/$NAME.pid
 SHUTDOWN_TIMEOUT=15
