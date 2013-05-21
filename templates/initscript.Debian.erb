@@ -3,7 +3,7 @@
 # File managed by puppet
 #
 ### BEGIN INIT INFO
-# Provides:          logstash-<%= logstash_name %>
+# Provides:          logstash-<%= @logstash_name %>
 # Required-Start:    $all
 # Required-Stop:     $all
 # Default-Start:     2 3 4 5
@@ -15,8 +15,8 @@
 set -e
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
-NAME=logstash-<%= logstash_name %>
-DESC="Logstash <%= logstash_name %> agent"
+NAME=logstash-<%= @logstash_name %>
+DESC="Logstash <%= @logstash_name %> agent"
 DEFAULT=/etc/default/$NAME
 
 if [ `id -u` -ne 0 ]; then
@@ -35,10 +35,10 @@ LS_USER=<%= scope.lookupvar('::logstash::user') %>
 LS_GROUP=<%= scope.lookupvar('::logstash::group') %>
 
 # Directory where the logstash all in one jar lives
-LS_HOME=/usr/share/logstash
+LS_HOME=<%= scope.lookupvar('::logstash::home') %>
 
 # Java OPTS
-LS_JAVA_OPTS="<%= java_opts %>"
+LS_JAVA_OPTS="<%= @java_opts %>"
 
 # log directory
 LOG_DIR=<%= scope.lookupvar('::logstash::log') %>
@@ -47,10 +47,10 @@ LOG_DIR=<%= scope.lookupvar('::logstash::log') %>
 CONF_DIR=<%= scope.lookupvar('::logstash::etc') %>
 
 # configuration file
-CONF_FILE=$CONF_DIR/<%= logstash_name %>.conf
+CONF_FILE=$CONF_DIR/<%= @logstash_name %>.conf
 
 # log file
-LOG_FILE=$LOG_DIR/<%= logstash_name %>.log
+LOG_FILE=$LOG_DIR/<%= @logstash_name %>.log
 
 # End of variables that can be overwritten in $DEFAULT
 
@@ -61,7 +61,7 @@ fi
 
 # Define other required variables
 PID_FILE=/var/run/$NAME.pid
-DAEMON=$LS_HOME/logstash.jar
+DAEMON=<%= scope.lookupvar('::logstash::home') %>/logstash.jar
 DAEMON_OPTS="agent -f ${CONF_FILE} --log ${LOG_FILE}"
 
 export LS_MIN_MEM LS_MAX_MEM
