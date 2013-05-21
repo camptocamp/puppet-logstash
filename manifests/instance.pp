@@ -10,8 +10,8 @@ define logstash::instance (
   $service_enable = $ensure ? { present => true, default => false }
 
   concat {"${logstash::etc}/${name}.conf":
-    owner   => 'root',
-    group   => 'root',
+    owner   => $logstash::user,
+    group   => $logstash::group,
     mode    => '0644',
     force   => true,
     notify  => Service["logstash-${name}"],
