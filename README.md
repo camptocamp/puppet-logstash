@@ -1,5 +1,7 @@
 # Logstash Puppet Module
 
+[![Build Status](https://travis-ci.org/camptocamp/puppet-logstash.png?branch=master)](https://travis-ci.org/camptocamp/puppet-logstash)
+
 This module is provided by [Camptocamp](http://www.camptocamp.com/)
 
 ## Usage
