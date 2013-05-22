@@ -45,7 +45,7 @@ describe 'logstash::initscript' do
         /LS_CONF_FILE=\/etc\/logstash\/indexer\.conf/,
         /LS_LOG_FILE=\/var\/log\/logstash\/indexer\.log/,
         /JAVA_OPTS="-Xms256m -Xmx256m"/,
-        /JAVA_ARGS="-jar \${LS_HOME}\/logstash\.jar agent -f \${LS_CONF_FILE} -l \${LS_LOG_FILE}"/].each do |arg|
+        /JAVA_ARGS="-jar \$\{LS_HOME\}\/logstash\.jar agent -f \$\{LS_CONF_FILE\} -l \$\{LS_LOG_FILE\}"/].each do |arg|
 
         context "should contain arg #{arg} on #{osfamily}" do
           it { should contain_file('/etc/init.d/logstash-indexer').with_content(arg) }
