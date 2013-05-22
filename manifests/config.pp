@@ -1,3 +1,7 @@
+# == Class: logstash::config
+#
+# Setup logstash configuration structure.
+#
 class logstash::config {
 
   include concat::setup
