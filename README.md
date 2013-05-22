@@ -39,11 +39,11 @@ Download the all inclusive logstash jar in a basic structure:
 
 Run the following command for CentOS/RedHat:
 
-    fpm -s dir -t rpm -n logstash -v 1.1.9 -a noarch --iteration 1 -d "jre >= 1.6.0" -f -C logstash-build .
+    fpm -s dir -t rpm -n logstash -v 1.1.9 -a noarch --iteration 1 --description "Logstash Open Source Log Management" -d "jre >= 1.6.0" -f -C logstash-build .
 
 And this one for Debian/Ubuntu:
 
-    fpm -s dir -t deb -n logstash -v 1.1.9 -a all --iteration 1 -d "java6-runtime" -f -C logstash-build .
+    fpm -s dir -t deb -n logstash -v 1.1.9 -a all --iteration 1 --description "Logstash Open Source Log Management" -d "java6-runtime" -f -C logstash-build .
 
 ## Contributing
 
