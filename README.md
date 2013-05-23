@@ -6,9 +6,9 @@ This module is provided by [Camptocamp](http://www.camptocamp.com/)
 
 ## Usage
 
-The define type logstash::instance is used to declare one or more [logstash](http://logstash.net/) agents. The names of 
+Defined type logstash::instance is used to declare one or more [logstash](http://logstash.net/) agents. The names of 
 these agents doesn't matter. What is really important is the function of each of these agents 
-which consists of specifying inputs, filters, and outputs
+which consists of specifying inputs, filters, and outputs.
 
     include ::logstash
 
@@ -44,16 +44,16 @@ Run the following command for CentOS/RedHat:
 And this one for Debian/Ubuntu:
 
     fpm -s dir -t deb -n logstash -v 1.1.9 -a all --iteration 1 --description "Logstash Open Source Log Management" -d "java6-runtime" -f -C logstash-build .
-
+ 
 ## Contributing
 
 Please report bugs and feature request using [GitHub issue
 tracker](https://github.com/camptocamp/puppet-logstash/issues).
 
 For pull requests, it is very much appreciated to check your Puppet manifest
-with [puppet-lint](https://github.com/camptocamp/puppet-logstash/issues) to follow the recommended Puppet style guidelines from the
+with [puppet-lint](http://puppet-lint.com/) to follow the recommended Puppet style guidelines from the
 [Puppet Labs style guide](http://docs.puppetlabs.com/guides/style_guide.html).
-
+ 
 ## License
 
 Copyright (c) 2013 <mailto:puppet@camptocamp.com> All rights reserved.
