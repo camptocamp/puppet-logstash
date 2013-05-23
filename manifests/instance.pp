@@ -1,3 +1,28 @@
+# == Define: logstash:instance
+#
+# This class installs a logstash agent.
+#
+# === Parameters
+#
+# [*ensure*]
+#   Specifies if agent is present or absent
+#
+# [*java_opts*]
+#   JVM runtime parameters.
+#
+# [*input_file*]
+#   File containing the logstash input section.
+#
+# [*filter_file*]
+#   File containing the logstash filter section.
+#
+# [*output_file*]
+#   File containing the logstash output section.
+#
+# === Examples
+#
+# See Readme
+#
 define logstash::instance (
   $ensure      = present,
   $java_opts   = '-Xms256m -Xmx256m',

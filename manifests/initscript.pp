@@ -1,3 +1,7 @@
+# == Define: logstash::iniscript
+#
+# A simple wrapper to generate a basic init script
+#
 define logstash::initscript (
   $ensure,
   $java_opts,
