@@ -25,6 +25,7 @@ class logstash (
   $home    = '/usr/share/logstash',
   $etc     = '/etc/logstash',
   $log     = '/var/log/logstash',
+  $plugins = '/usr/share/logstash/plugins',
   $user    = 'logstash',
   $group   = 'logstash',
 ) {

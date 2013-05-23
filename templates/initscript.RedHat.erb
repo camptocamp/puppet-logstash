@@ -13,9 +13,11 @@ LS_USER=<%= scope.lookupvar('::logstash::user') %>
 LS_GROUP=<%= scope.lookupvar('::logstash::group') %>
 LS_CONF_FILE=<%= scope.lookupvar('::logstash::etc') %>/<%= @logstash_name %>.conf
 LS_LOG_FILE=<%= scope.lookupvar('::logstash::log') %>/<%= @logstash_name %>.log
+# Path to Logstash plugins
+PLUGINS_DIR=<%= scope.lookupvar('::logstash::plugins') %>
 
 LS_JAVA_OPTS="<%= @java_opts %>"
-LS_JAVA_ARGS="-jar ${LS_HOME}/logstash.jar agent -f ${LS_CONF_FILE} -l ${LS_LOG_FILE}"
+LS_JAVA_ARGS="-jar ${LS_HOME}/logstash.jar agent -f ${LS_CONF_FILE} --pluginpath ${PLUGINS_DIR} -l ${LS_LOG_FILE}"
 
 PID_FILE=/var/run/$NAME.pid
 SHUTDOWN_TIMEOUT=15
