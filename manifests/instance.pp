@@ -26,6 +26,7 @@
 define logstash::instance (
   $ensure      = present,
   $java_opts   = '-Xms256m -Xmx256m',
+  $workers     = 1,
   $input_file  = "puppet:///${module_name}/${name}-default-input",
   $filter_file = "puppet:///${module_name}/${name}-default-filter",
   $output_file = "puppet:///${module_name}/${name}-default-output",
@@ -76,6 +77,7 @@ define logstash::instance (
   logstash::initscript {$name:
     ensure    => $ensure,
     java_opts => $java_opts,
+    workers   => $workers,
   }
 
   service {"logstash-${name}":

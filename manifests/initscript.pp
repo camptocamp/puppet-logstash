@@ -5,6 +5,7 @@
 define logstash::initscript (
   $ensure,
   $java_opts,
+  $workers,
 ) {
 
   $logstash_name = $name
