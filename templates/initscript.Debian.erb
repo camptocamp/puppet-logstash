@@ -41,7 +41,6 @@ LS_WORKERS="<%= @workers %>"
 LS_JAVA_OPTS="<%= @java_opts %>"
 LS_JAVA_ARGS="-jar ${LS_HOME}/logstash.jar agent -f ${LS_CONF_FILE} -w ${LS_WORKERS} -l ${LS_LOG_FILE} --pluginpath ${LS_PLUGINS_DIR}"
 
-
 PID_FILE=/var/run/$NAME.pid
 
 case "$1" in

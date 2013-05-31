@@ -13,7 +13,6 @@ LS_USER=<%= scope.lookupvar('::logstash::user') %>
 LS_GROUP=<%= scope.lookupvar('::logstash::group') %>
 LS_CONF_FILE=<%= scope.lookupvar('::logstash::etc') %>/<%= @logstash_name %>.conf
 LS_LOG_FILE=<%= scope.lookupvar('::logstash::log') %>/<%= @logstash_name %>.log
-# Path to Logstash plugins
 LS_PLUGINS_DIR=<%= scope.lookupvar('::logstash::plugins') %>
 LS_WORKERS="<%= @workers %>"
 
