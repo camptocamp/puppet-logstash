@@ -11,6 +11,9 @@
 # [*etc*]
 #   Directory where logstash configuration is located.
 #
+# [*plugins*]
+#   Directory where logstash plugins are located.
+#
 # [*user*]
 #   Default logstash user.
 #
@@ -34,6 +37,8 @@ class logstash (
   validate_absolute_path($logstash::home)
   validate_string($logstash::etc)
   validate_absolute_path($logstash::etc)
+  validate_string($logstash::plugins)
+  validate_absolute_path($logstash::plugins)
   validate_string($logstash::log)
   validate_absolute_path($logstash::log)
 
