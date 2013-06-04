@@ -28,7 +28,7 @@ class logstash::config {
     recurse => true,
     purge   => true,
   }
-    
+
   user {$logstash::user:
     ensure => present,
     system => true,
