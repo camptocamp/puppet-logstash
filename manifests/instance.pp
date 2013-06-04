@@ -30,7 +30,6 @@ define logstash::instance (
   $input_file  = "puppet:///${module_name}/${name}-default-input",
   $filter_file = "puppet:///${module_name}/${name}-default-filter",
   $output_file = "puppet:///${module_name}/${name}-default-output",
-  $plugins_dir,
 ) {
 
   $service_ensure = $ensure ? { present => 'running', default => 'stopped' }
@@ -63,15 +62,6 @@ define logstash::instance (
     target => "${logstash::etc}/${name}.conf",
     source => $output_file,
     order  => 03,
-  }
-
-  file { "${logstash::plugins}":
-    ensure  => 'directory',
-    owner   => $logstash::user,
-    group   => $logstash::group,
-    mode    => '0755',
-    recurse => true,
-    source  => $plugins_dir,
   }
 
   logstash::initscript {$name:
