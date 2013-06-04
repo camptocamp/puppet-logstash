@@ -13,14 +13,14 @@ class logstash::config {
     mode   => '0755',
   }
 
-  file {["${logstash::plugins}/logstash/inputs",
+  file {["${logstash::plugins}/logstash",
+    "${logstash::plugins}/logstash/inputs",
     "${logstash::plugins}/logstash/filters",
     "${logstash::plugins}/logstash/outputs"]:
     ensure  => 'directory',
     owner   => $logstash::user,
     group   => $logstash::group,
     mode    => '0755',
-    recurse => true,
     purge   => true,
   }
 
