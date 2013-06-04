@@ -17,9 +17,9 @@ class logstash::config {
     mode   => '0755',
   }
 
-  file {["${logstash::home}/logstash/inputs",
-         "${logstash::home}/logstash/filters",
-         "${logstash::home}/logstash/outputs",
+  file {["${logstash::plugins}/logstash/inputs",
+         "${logstash::plugins}/logstash/filters",
+         "${logstash::plugins}/logstash/outputs",
         ]:
     ensure  => 'directory',
     owner   => $logstash::user,
