@@ -6,11 +6,7 @@ class logstash::config {
 
   include concat::setup
 
-  file {[$logstash::home,
-         $logstash::etc,
-         $logstash::log,
-         $logstash::plugins,
-        ]:
+  file {[$logstash::home, $logstash::etc, $logstash::log, $logstash::plugins]:
     ensure => 'directory',
     owner  => $logstash::user,
     group  => $logstash::group,
@@ -18,9 +14,8 @@ class logstash::config {
   }
 
   file {["${logstash::plugins}/logstash/inputs",
-         "${logstash::plugins}/logstash/filters",
-         "${logstash::plugins}/logstash/outputs",
-        ]:
+    "${logstash::plugins}/logstash/filters",
+    "${logstash::plugins}/logstash/outputs"]:
     ensure  => 'directory',
     owner   => $logstash::user,
     group   => $logstash::group,

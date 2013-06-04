@@ -37,7 +37,8 @@ define logstash::plugin (
   if $source != undef and $content != undef {
     fail "Must pass only one of \$source or \$content to logstash::plugin[${name}]"
   }
-  validate_re ($type, ['^input$','^filter$','^output$'], "\$type must be one of 'input', 'filter', or 'output' in logstash::plugin[${name}]")
+  validate_re ($type, ['^input$','^filter$','^output$'],
+    "\$type must be one of 'input', 'filter', or 'output' in logstash::plugin[${name}]")
 
   file {"${logstash::plugins}/logstash/${type}s/${name}.rb":
     ensure  => file,
