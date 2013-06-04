@@ -48,7 +48,7 @@ describe 'logstash::initscript' do
         /LS_CONF_FILE=\/etc\/logstash\/indexer\.conf/,
         /LS_LOG_FILE=\/var\/log\/logstash\/indexer\.log/,
         /LS_PLUGINS_DIR=\/usr\/share\/logstash\/plugins/,
-        /LS_WORKERS=1/,
+        /LS_WORKERS="1"/,
         /JAVA_OPTS="-Xms256m -Xmx256m"/,
         /JAVA_ARGS="-jar \$\{LS_HOME\}\/logstash\.jar agent -f \$\{LS_CONF_FILE\} -w \$\{LS_WORKERS\} -l \$\{LS_LOG_FILE\} --pluginpath \$\{LS_PLUGINS_DIR\}"/].each do |arg|
 
