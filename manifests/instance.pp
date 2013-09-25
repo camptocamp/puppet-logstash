@@ -27,9 +27,9 @@ define logstash::instance (
   $ensure      = present,
   $java_opts   = '-Xms256m -Xmx256m',
   $workers     = 1,
-  $input_file  = "puppet:///${module_name}/${name}-default-input",
-  $filter_file = "puppet:///${module_name}/${name}-default-filter",
-  $output_file = "puppet:///${module_name}/${name}-default-output",
+  $input_file  = "puppet:///modules/${module_name}/${name}-default-input",
+  $filter_file = "puppet:///modules/${module_name}/${name}-default-filter",
+  $output_file = "puppet:///modules/${module_name}/${name}-default-output",
 ) {
 
   $service_ensure = $ensure ? { present => 'running', default => 'stopped' }

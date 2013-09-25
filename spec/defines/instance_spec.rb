@@ -23,28 +23,28 @@ describe 'logstash::instance' do
   context 'when passing default input/filter/output files' do
     let(:params) { {
       :ensure      => 'present',
-      :input_file  => 'puppet:///logstash/indexer-default-input',
-      :filter_file => 'puppet:///logstash/indexer-default-filter',
-      :output_file => 'puppet:///logstash/indexer-default-output',
+      :input_file  => 'puppet:///modules/logstash/indexer-default-input',
+      :filter_file => 'puppet:///modules/logstash/indexer-default-filter',
+      :output_file => 'puppet:///modules/logstash/indexer-default-output',
     } }
   
     it do
       should contain_concat__fragment('input-indexer').with(
         :ensure => 'present',
         :target => '/etc/logstash/indexer.conf',
-        :source => 'puppet:///logstash/indexer-default-input',
+        :source => 'puppet:///modules/logstash/indexer-default-input',
         :order  => '01'
       )
       should contain_concat__fragment('filter-indexer').with(
         :ensure => 'present',
         :target => '/etc/logstash/indexer.conf',
-        :source => 'puppet:///logstash/indexer-default-filter',
+        :source => 'puppet:///modules/logstash/indexer-default-filter',
         :order  => '02'
       )
       should contain_concat__fragment('output-indexer').with(
         :ensure  => 'present',
         :target  => '/etc/logstash/indexer.conf',
-        :source  => 'puppet:///logstash/indexer-default-output',
+        :source  => 'puppet:///modules/logstash/indexer-default-output',
         :order   => '03'
       )
     end
