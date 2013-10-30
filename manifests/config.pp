@@ -4,8 +4,6 @@
 #
 class logstash::config {
 
-  include concat::setup
-
   file {[$logstash::home, $logstash::etc, $logstash::log, $logstash::plugins]:
     ensure => 'directory',
     owner  => $logstash::user,
