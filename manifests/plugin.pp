@@ -40,10 +40,10 @@ define logstash::plugin (
   validate_re ($type, ['^input$','^filter$','^output$'],
     "\$type must be one of 'input', 'filter', or 'output' in logstash::plugin[${name}]")
 
-  file {"${logstash::plugins}/logstash/${type}s/${name}.rb":
+  file {"${::logstash::plugins_dir}/${type}s/${name}.rb":
     ensure  => file,
-    owner   => $logstash::user,
-    group   => $logstash::group,
+    owner   => 'root',
+    group   => 'root',
     source  => $source,
     content => $content,
   }

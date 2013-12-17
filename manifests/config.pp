@@ -1,36 +1,42 @@
-# == Class: logstash::config
+# == Define: logstash::config
 #
-# Setup logstash configuration structure.
+# Add a configuration file to a logstash instance
 #
-class logstash::config {
+define logstash::config (
+  $type,
+  $ensure   = 'present',
+  $content  = undef,
+  $source   = undef,
+  $instance = 'main',
+  $order    = '01',
+) {
 
-  file {[$logstash::home, $logstash::etc, $logstash::log, $logstash::plugins]:
-    ensure => 'directory',
-    owner  => $logstash::user,
-    group  => $logstash::group,
-    mode   => '0755',
+  if $content == undef and $source == undef or $content != undef and $source != undef {
+    fail "Must pass (only) one of content or source to logstash::config[${name}]"
   }
 
-  file {["${logstash::plugins}/logstash",
-    "${logstash::plugins}/logstash/inputs",
-    "${logstash::plugins}/logstash/filters",
-    "${logstash::plugins}/logstash/outputs"]:
-    ensure  => 'directory',
-    owner   => $logstash::user,
-    group   => $logstash::group,
+  $prefix = $type ? {
+    'input'  => '01-input',
+    'filter' => '02-filter',
+    'output' => '03-output',
+  }
+
+  $conf_dir = $instance ? {
+    'main'  => 'conf.d',
+    default => "${instance}.conf.d",
+  }
+
+  file {"/etc/logstash/${conf_dir}/${prefix}-${order}-${name}.conf":
+    ensure  => $ensure,
+    content => $content,
+    source  => $source,
+    owner   => 'root',
+    group   => 'root',
     mode    => '0755',
-    purge   => true,
-  }
-
-  user {$logstash::user:
-    ensure => present,
-    system => true,
-    gid    => $logstash::group
-  }
-
-  group {$logstash::group:
-    ensure => present,
-    system => true,
+    notify  => $instance ? {
+      'main'  => undef,
+      default => Service["logstash-${instance}"],
+    },
   }
 
 }
