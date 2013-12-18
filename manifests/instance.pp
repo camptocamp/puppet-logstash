@@ -66,5 +66,5 @@ define logstash::instance (
     group  => 'root',
     mode   => '0755',
   }
- 
+
 }

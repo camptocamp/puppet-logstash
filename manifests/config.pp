@@ -26,6 +26,11 @@ define logstash::config (
     default => "${instance}.conf.d",
   }
 
+  $instance_service = $instance ? {
+    'main'  => undef,
+    default => Service["logstash-${instance}"],
+  }
+
   file {"/etc/logstash/${conf_dir}/${prefix}-${order}-${name}.conf":
     ensure  => $ensure,
     content => $content,
@@ -33,10 +38,7 @@ define logstash::config (
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
-    notify  => $instance ? {
-      'main'  => undef,
-      default => Service["logstash-${instance}"],
-    },
+    notify  => $instance_service,
   }
 
 }
