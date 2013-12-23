@@ -39,16 +39,22 @@ LS_GROUP=logstash
 JAVA=/usr/bin/java
 
 # Directory where the logstash all in one jar lives
-LS_HOME=/var/lib/logstash
+LS_HOME=/opt/logstash
+
+# Path to the logstash.jar file
+LS_JAR=$LS_HOME/logstash.jar
 
 # Additional Java OPTS
-LS_JAVA_OPTS=" -Djava.io.tmpdir=/var/logstash/"
+LS_JAVA_OPTS="-Xmx256m -Djava.io.tmpdir=/var/logstash/"
 
 # logstash log directory
 LOG_DIR=/var/log/logstash
 
 # logstash configuration directory
 CONF_DIR=/etc/logstash/<%= @name %>.conf.d
+
+# logstash plugins directory
+PLUGIN_DIR=/var/lib/logstash
 
 # logstash log file
 LOG_FILE=$LOG_DIR/$NAME.log
@@ -57,10 +63,13 @@ LOG_FILE=$LOG_DIR/$NAME.log
 OPEN_FILES=2048
 
 # LogStash options
-LS_OPTS="--log ${LOG_DIR}/${NAME}.log"
+LS_OPTS="--log ${LOG_DIR}/${NAME}.log --pluginpath ${PLUGIN_DIR}"
 
 # Nice level
 NICE=19
+
+# Filter threads
+FILTER_THREADS=1
 
 # End of variables that can be overwritten in $DEFAULT
 
@@ -71,8 +80,9 @@ fi
 
 # Define other required variables
 PID_FILE=/var/run/$NAME.pid
+
 DAEMON=$LS_JAR
-DAEMON_OPTS="agent -f ${CONF_DIR} ${LS_OPTS}"
+DAEMON_OPTS="agent -f ${CONF_DIR} ${LS_OPTS} -w ${FILTER_THREADS}"
 
 is_true() {
     if [ "x$1" = "xtrue" -o "x$1" = "xyes" -o "x$1" = "x1" ] ; then

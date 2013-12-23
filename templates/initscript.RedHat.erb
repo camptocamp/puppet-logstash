@@ -30,12 +30,17 @@ if [ `id -u` -ne 0 ]; then
    exit 1
 fi
 
+export JAVA_HOME=/usr
+
 # The following variables can be overwritten in $DEFAULT
 
-export JAVA_HOME=/usr
+JAVA=`which java`
 
 # Directory where the logstash all in one jar lives
 LS_HOME=/opt/logstash
+
+# Path to the logstash.jar file
+LS_JAR=$LS_HOME/logstash.jar
 
 # Additional Java OPTS
 LS_JAVA_OPTS="-Xmx256m -Djava.io.tmpdir=$LS_HOME/tmp"
@@ -46,11 +51,17 @@ LOG_DIR=/var/log/logstash
 # logstash configuration directory
 CONF_DIR=/etc/logstash/<%= @name %>.conf.d
 
+# logstash plugins directory
+PLUGIN_DIR=/var/lib/logstash
+
 # logstash log file
 LOG_FILE=$LOG_DIR/$NAME.log
 
 # Open File limit
 OPEN_FILES=2048
+
+# LogStash options
+LS_OPTS="--log ${LOG_DIR}/${NAME}.log --pluginpath ${PLUGIN_DIR}"
 
 # Nice level
 NICE=19
@@ -67,9 +78,8 @@ fi
 # Define other required variables
 PID_FILE=/var/run/$NAME.pid
 
-JAVA=`which java`
-ARGS="${LS_JAVA_OPTS} -jar ${LS_JAR} agent --config ${CONF_DIR} --log ${LOG_FILE} -w ${FILTER_THREADS}"
 DAEMON=$LS_JAR
+DAEMON_OPTS="agent -f ${CONF_DIR} ${LS_OPTS} -w ${FILTER_THREADS}"
 
 is_true() {
     if [ "x$1" = "xtrue" -o "x$1" = "xyes" -o "x$1" = "x1" ] ; then
@@ -95,8 +105,8 @@ do_start()
     exit 1
   fi
 
-  if ! test -e "${LS_JAR}"; then
-    echo "Daemon ${LS_JAR} doesn't exist"
+  if ! test -e "${DAEMON}"; then
+    echo "Daemon ${DAEMON} doesn't exist"
     exit 1
   fi
 
@@ -108,10 +118,10 @@ do_start()
   ulimit -n $OPEN_FILES
 
   cd $LS_HOME
-  $JAVA $ARGS > /dev/null 1>&1 &
+  $JAVA -jar $DAEMON $DAEMON_OPTS > /dev/null 1>&1 &
 
   RETVAL=$?
-  local PID=`pgrep -f "${JAVA} ${ARGS}"`
+  local PID=`pgrep -f "${JAVA} -jar ${DAEMON} ${DAEMON_OPTS}"`
   echo $PID > $PID_FILE
   success
 }
