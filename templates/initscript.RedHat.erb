@@ -68,8 +68,8 @@ fi
 PID_FILE=/var/run/$NAME.pid
 
 JAVA=`which java`
-JAR="${LS_HOME}/logstash.jar"
-ARGS="${LS_JAVA_OPTS} -jar ${JAR} agent --config ${CONF_DIR} --log ${LOG_FILE} -w ${FILTER_THREADS}"
+ARGS="${LS_JAVA_OPTS} -jar ${LS_JAR} agent --config ${CONF_DIR} --log ${LOG_FILE} -w ${FILTER_THREADS}"
+DAEMON=$LS_JAR
 
 is_true() {
     if [ "x$1" = "xtrue" -o "x$1" = "xyes" -o "x$1" = "x1" ] ; then
@@ -95,8 +95,8 @@ do_start()
     exit 1
   fi
 
-  if ! test -e "${JAR}"; then
-    echo "Daemon $DAEMON doesn't exist"
+  if ! test -e "${LS_JAR}"; then
+    echo "Daemon ${LS_JAR} doesn't exist"
     exit 1
   fi
 
@@ -111,7 +111,7 @@ do_start()
   $JAVA $ARGS > /dev/null 1>&1 &
 
   RETVAL=$?
-  local PID=`pgrep -f "${DAEMON} ${ARGS}"`
+  local PID=`pgrep -f "${JAVA} ${ARGS}"`
   echo $PID > $PID_FILE
   success
 }
