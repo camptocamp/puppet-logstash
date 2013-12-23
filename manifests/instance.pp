@@ -1,6 +1,6 @@
 # == Define: logstash:instance
 #
-# This class installs a logstash agent.
+# This class installs an additional logstash agent.
 #
 # === Parameters
 #
@@ -10,64 +10,40 @@
 # [*java_opts*]
 #   JVM runtime parameters.
 #
-# [*input_file*]
-#   File containing the logstash input section.
-#
-# [*filter_file*]
-#   File containing the logstash filter section.
-#
-# [*output_file*]
-#   File containing the logstash output section.
-#
 # === Examples
 #
 # See Readme
 #
 define logstash::instance (
-  $ensure      = present,
-  $java_opts   = '-Xms256m -Xmx256m',
-  $workers     = 1,
-  $input_file  = "puppet:///modules/${module_name}/${name}-default-input",
-  $filter_file = "puppet:///modules/${module_name}/${name}-default-filter",
-  $output_file = "puppet:///modules/${module_name}/${name}-default-output",
+  $ensure         = present,
+  $java_opts      = '-Xms256m -Xmx256m',
+  $filter_threads = '1',
 ) {
 
   $service_ensure = $ensure ? { present => 'running', default => 'stopped' }
   $service_enable = $ensure ? { present => true, default => false }
 
-  concat {"${logstash::etc}/${name}.conf":
-    owner   => $logstash::user,
-    group   => $logstash::group,
-    mode    => '0644',
-    force   => true,
-    notify  => Service["logstash-${name}"],
+  $init_file = "/etc/init.d/logstash-${name}"
+  file {$init_file:
+    ensure  => $ensure,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    content => template("logstash/initscript.${::osfamily}.erb"),
   }
 
-  concat::fragment {"input-${name}":
-    ensure => $ensure,
-    target => "${logstash::etc}/${name}.conf",
-    source => $input_file,
-    order  => 01,
+  $default_path = $::osfamily ? {
+    'Debian' => '/etc/default',
+    'RedHat' => '/etc/sysconfig',
   }
+  $default_file = "${default_path}/logstash-${name}"
 
-  concat::fragment {"filter-${name}":
-    ensure => $ensure,
-    target => "${logstash::etc}/${name}.conf",
-    source => $filter_file,
-    order  => 02,
-  }
-
-  concat::fragment {"output-${name}":
-    ensure => $ensure,
-    target => "${logstash::etc}/${name}.conf",
-    source => $output_file,
-    order  => 03,
-  }
-
-  logstash::initscript {$name:
-    ensure    => $ensure,
-    java_opts => $java_opts,
-    workers   => $workers,
+  file {$default_file:
+    ensure  => $ensure,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    content => template('logstash/default.erb'),
   }
 
   service {"logstash-${name}":
@@ -76,15 +52,20 @@ define logstash::instance (
     enable    => $service_enable,
     require   => [
       Package['logstash'],
-      File[$logstash::log],
     ],
   }
 
   if $ensure == 'present' {
-    Logstash::Initscript[$name] -> Service["logstash-${name}"]
+    File[$init_file] -> File[$default_file] -> Service["logstash-${name}"]
   } else {
-    Service["logstash-${name}"] -> Logstash::Initscript[$name]
+    Service["logstash-${name}"] -> File[$default_file] -> File[$init_file]
+  }
+
+  file {"/etc/logstash/${name}.conf.d":
+    ensure => directory,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
   }
 
 }
-
