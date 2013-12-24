@@ -10,6 +10,14 @@
 # [*java_opts*]
 #   JVM runtime parameters.
 #
+# [*enable_plugins*]
+#   Enable use of custom plugins in the logstash. This must be enabled
+#   only if you actually have plugins present, otherwise logstash will
+#   fail to start.
+#
+# [*filter_threads*]
+#   Number of logstash filtering threads (workers).
+#
 # === Examples
 #
 # See Readme
@@ -17,6 +25,7 @@
 define logstash::instance (
   $ensure         = present,
   $java_opts      = '-Xms256m -Xmx256m',
+  $enable_plugins = false,
   $filter_threads = '1',
 ) {
 

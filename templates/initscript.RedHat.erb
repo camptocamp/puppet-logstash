@@ -61,7 +61,11 @@ LOG_FILE=$LOG_DIR/$NAME.log
 OPEN_FILES=2048
 
 # LogStash options
+<% if @enable_plugins -%>
 LS_OPTS="--log ${LOG_DIR}/${NAME}.log --pluginpath ${PLUGIN_DIR}"
+<% else -%>
+LS_OPTS="--log ${LOG_DIR}/${NAME}.log"
+<% end -%>"
 
 # Nice level
 NICE=19
