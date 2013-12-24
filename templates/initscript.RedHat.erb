@@ -122,10 +122,10 @@ do_start()
   ulimit -n $OPEN_FILES
 
   cd $LS_HOME
-  $JAVA -jar $DAEMON $DAEMON_OPTS > /dev/null 1>&1 &
+  $JAVA $LS_JAVA_OPTS -jar $DAEMON $DAEMON_OPTS > /dev/null 1>&1 &
 
   RETVAL=$?
-  local PID=`pgrep -f "${JAVA} -jar ${DAEMON} ${DAEMON_OPTS}"`
+  local PID=`pgrep -f "${JAVA} ${LS_JAVA_OPTS} -jar ${DAEMON} ${DAEMON_OPTS}"`
   echo $PID > $PID_FILE
   success
 }
