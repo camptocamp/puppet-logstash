@@ -27,6 +27,7 @@ define logstash::instance (
   $java_opts      = '-Xms256m -Xmx256m',
   $enable_plugins = false,
   $filter_threads = '1',
+  $process_owner  = 'logstash',
 ) {
 
   $service_ensure = $ensure ? { present => 'running', default => 'stopped' }

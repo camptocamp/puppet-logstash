@@ -15,7 +15,7 @@ LS_JAVA_OPTS="<%= @java_opts %> -Djava.io.tmpdir=/var/lib/logstash/"
 PIDFILE=/var/run/logstash.pid
 
 # user id to be invoked as
-LS_USER=logstash
+LS_USER=<%= @process_owner %>
 
 # location of the logstas jar file
 #LS_JAR=/opt/logstash/logstash.jar
