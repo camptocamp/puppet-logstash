@@ -17,6 +17,7 @@ class logstash::install {
     group   => 'root',
     mode    => '0755',
     purge   => true,
+    require => Package['logstash'],
   }
 
 }
