@@ -52,7 +52,7 @@ define logstash::instance (
     ensure  => $ensure,
     owner   => 'root',
     group   => 'root',
-    mode    => '0755',
+    mode    => '0644',
     content => template('logstash/default.erb'),
   }
 
