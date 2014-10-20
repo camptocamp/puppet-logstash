@@ -1,5 +1,6 @@
 # Logstash Puppet Module
 
+[![Puppet Forge](http://img.shields.io/puppetforge/v/camptocamp/logstash.svg)](https://forge.puppetlabs.com/camptocamp/logstash)
 [![Build Status](https://travis-ci.org/camptocamp/puppet-logstash.png?branch=master)](https://travis-ci.org/camptocamp/puppet-logstash)
 
 This module is provided by [Camptocamp](http://www.camptocamp.com/)
