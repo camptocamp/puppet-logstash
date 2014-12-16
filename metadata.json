@@ -1,15 +1,32 @@
 {
   "name": "camptocamp-logstash",
-  "version": "1.1.1",
-  "author": "DevOps Team / Camptocamp",
+  "version": "1.1.2",
+  "author": "Camptocamp",
   "summary": "Camptocamp Logstash Module",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "source": "https://github.com/camptocamp/puppet-logstash",
   "project_page": "https://github.com/camptocamp/puppet-logstash",
   "issues_url": "https://github.com/camptocamp/puppet-logstash/issues",
   "description": "Puppet module for Logstash",
   "dependencies": [
-    {"name":"puppetlabs/stdlib","version_requirement":">= 2.2.1"},
-    {"name":"puppetlabs/concat","version_requirement":">= 0.2.0"}
+    {"name":"puppetlabs/stdlib","version_requirement":">= 3.0.0 < 5.0.0"},
+    {"name":"puppetlabs/concat","version_requirement":">= 1.0.0 < 2.0.0"}
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "5",
+        "6",
+        "7"
+      ]
+    }
   ]
 }
