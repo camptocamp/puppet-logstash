@@ -30,8 +30,8 @@ define logstash::instance (
   $process_owner  = 'logstash',
 ) {
 
-  $service_ensure = $ensure ? { present => 'running', default => 'stopped' }
-  $service_enable = $ensure ? { present => true, default => false }
+  $service_ensure = $ensure ? { 'present' => 'running', default => 'stopped' }
+  $service_enable = $ensure ? { 'present' => true, default => false }
 
   $init_file = "/etc/init.d/logstash-${name}"
   file {$init_file:
