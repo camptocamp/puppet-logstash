@@ -7,6 +7,10 @@ describe 'logstash::instance' do
     :osfamily       => 'Debian',
   } }
 
+  let(:pre_condition) {
+    'include ::logstash'
+  }
+
   it do
     should contain_service('logstash-indexer').with_ensure('running')
     should contain_file('/etc/init.d/logstash-indexer').with_ensure('present')
