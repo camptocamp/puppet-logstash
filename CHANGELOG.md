@@ -1,3 +1,10 @@
+## 2015-04-08 - Release 1.2.0
+
+- Do not use spaceship operator
+- Use anchors in the logstash class
+- Fix tests with the future parser
+- Use rspec-puppet-facts
+
 ## 2015-01-07 - Release 1.1.5
 
 - Fix unquoted strings in cases
