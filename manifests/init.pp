@@ -24,7 +24,7 @@ class logstash (
   validate_string($::logstash::log_dir)
   validate_absolute_path($::logstash::log_dir)
 
-  class {'logstash::install': } ->
-  Logstash::Instance <| |>
-
+  anchor { 'logstash::begin': } ->
+  class {'::logstash::install': } ->
+  anchor { 'logstash::end': }
 }

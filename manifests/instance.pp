@@ -78,4 +78,5 @@ define logstash::instance (
     mode   => '0755',
   }
 
+  Class['::logstash::install'] -> Logstash::Instance[$title]
 }
