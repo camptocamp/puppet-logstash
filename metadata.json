@@ -1,6 +1,6 @@
 {
   "name": "camptocamp-logstash",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "author": "Camptocamp",
   "summary": "Camptocamp Logstash Module",
   "license": "Apache-2.0",
