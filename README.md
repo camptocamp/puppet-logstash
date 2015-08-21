@@ -3,6 +3,11 @@
 [![Puppet Forge](http://img.shields.io/puppetforge/v/camptocamp/logstash.svg)](https://forge.puppetlabs.com/camptocamp/logstash)
 [![Build Status](https://travis-ci.org/camptocamp/puppet-logstash.png?branch=master)](https://travis-ci.org/camptocamp/puppet-logstash)
 
+# Warning
+
+This module is not supported anymore by camptocamp.
+Please use [elasticsearch/logstash](https://forge.puppetlabs.com/elasticsearch/logstash) module instead.
+
 This module is provided by [Camptocamp](http://www.camptocamp.com/)
 
 ## Usage
